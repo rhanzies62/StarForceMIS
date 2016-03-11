@@ -1,0 +1,35 @@
+﻿@using StarForceMIS.Web.Models;
+@{
+    ViewBag.Title = "Home";
+}
+
+<br />
+<div class="container">
+    <div class="row">
+        @using (Html.BeginForm("GuardSchedule", "Home", FormMethod.Post, new { @class = "form-inline col-md-6", @id = "SearchScheduleForm" }))
+        {
+            <h4>@string.Format("{0} {1}, {2} Guard Schedule", DateTime.UtcNow.ToString("MMMMMMMMMMMMM"), DateTime.UtcNow.Day, DateTime.UtcNow.Year)</h4>
+            <div class="col-md-7 col-md-offset-5">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search specific date here" id="scheduleDate" name="query">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </div>
+        }
+
+    </div>
+    <div class="row">
+        <div class="guardScheduleView">
+            @Html.Action("GuardSchedule", "Home")
+        </div>
+
+        <div class="guardList">
+            @Html.Action("GuardList", "Home")
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/App/HomeScript.js"></script>
+}

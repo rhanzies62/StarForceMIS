@@ -1,0 +1,21 @@
+﻿@model StarForceMIS.Web.Models.GuardScheduleViewModel
+@{
+    Layout = null;
+}
+<br />
+<div class="col-md-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading"><span class="glyphicon glyphicon-random">&nbsp;</span>Day shift (0600H - 1800H)</div>
+        <div class="panel-body">
+            @Html.Partial("partial/ScheduleDetails", Model.DayShift)
+        </div>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading"><span class="glyphicon glyphicon-random">&nbsp;</span>&nbsp;Night shift (0600H - 1800H)</div>
+        <div class="panel-body">
+            @Html.Partial("partial/ScheduleDetails", Model.NightShift)
+        </div>
+    </div>
+    <button class="btn btn-primary">Download Daily Manning</button>
+</div>
+

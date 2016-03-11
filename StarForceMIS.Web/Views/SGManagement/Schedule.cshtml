@@ -1,0 +1,111 @@
+﻿@model StarForceMIS.Web.Models.ScheduleViewModel
+
+@{
+    ViewBag.Title = "Schedule";
+}
+
+<br />
+<div class="row">
+    <div class="col-md-7">
+        <div class="panel panel-primary ">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span class="glyphicon glyphicon-user">&nbsp;</span>
+                    Search Guard
+                </h3>
+            </div>
+            <div class="panel-body">
+                @using (Html.BeginForm("Schedule", "SGManagement", FormMethod.Post, new { @class = "col-md-12" }))
+                {
+                    <div class="row">
+                        <div class="row">
+                            <div class="col-md-7">
+                                @Html.EditorFor(model => model.QueryString, new { htmlAttributes = new { @class = "form-control", @placeholder = "Search guard here...." } })
+                            </div>
+                            <input type="submit" value="Search" class="btn btn-primary col-md-3" />
+                        </div>
+                        @Html.ValidationMessageFor(model => model.QueryString, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="row">
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-3 col-md-offset-4">
+                                <img src="~/Content/img/noavatar.jpg" class="img-thumbnail" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label class="col-sm-12 control-label"><strong>First Name:</strong></label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">Franciso</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-sm-12 control-label"><strong>Middle Name:</strong></label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">Magnaye</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-sm-12 control-label"><strong>Last Name:</strong></label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">Cebu</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-sm-12 control-label"><strong>Call Sign:</strong></label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">Foo</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-sm-12 control-label"><strong>Licensed Number:</strong></label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">3325364282</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="col-sm-12 control-label"><strong>Expiration Date:</strong></label>
+                                <div class="col-sm-12">
+                                    <p class="form-control-static">Jan, 20 2018</p>
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model != null)
+                        {
+                            <div class="details form-horizontal">
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.GuardDetails.FirstName, htmlAttributes: new { @class = "control-label col-sm-2" })
+                                    <label class="col-sm-2 control-label">Email :</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static">@Model.GuardDetails.FirstName</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.GuardDetails.MiddleName, htmlAttributes: new { @class = "control-label col-sm-2" })
+                                    <label class="col-sm-2 control-label">Email :</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static">@Model.GuardDetails.MiddleName</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.GuardDetails.LastName, htmlAttributes: new { @class = "control-label col-sm-2" })
+                                    <label class="col-sm-2 control-label">Email :</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static">@Model.GuardDetails.LastName</p>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-7">
+
+    </div>
+</div>
+

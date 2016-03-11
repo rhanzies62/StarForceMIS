@@ -1,0 +1,105 @@
+﻿@model StarForceMIS.Web.Models.GuardViewModel
+
+@{
+    ViewBag.Title = "NewGuard";
+}
+
+<br />
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-primary ">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span class="glyphicon glyphicon-user">&nbsp;</span>
+                        Personal Information
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="row">
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group col-md-4">
+                                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })
+                                <div class="">
+                                    @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Requried" } })
+                                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label " })
+                                <div class="">
+                                    @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Optional" } })
+                                    @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label " })
+                                <div class="">
+                                    @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", @placeholder = "Requried" } })
+                                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                @Html.LabelFor(model => model.CallSign, htmlAttributes: new { @class = "control-label " })
+                                <div class="">
+                                    @Html.EditorFor(model => model.CallSign, new { htmlAttributes = new { @class = "form-control", @placeholder = "Requried" } })
+                                    @Html.ValidationMessageFor(model => model.CallSign, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                @Html.LabelFor(model => model.LicensedNumber, htmlAttributes: new { @class = "control-label " })
+                                <div class="">
+                                    @Html.EditorFor(model => model.LicensedNumber, new { htmlAttributes = new { @class = "form-control", @placeholder = "Requried" } })
+                                    @Html.ValidationMessageFor(model => model.LicensedNumber, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                @Html.LabelFor(model => model.ExpiredDate, htmlAttributes: new { @class = "control-label " })
+                                <div class="">
+                                    @Html.EditorFor(model => model.ExpiredDate, new { htmlAttributes = new { @class = "form-control", @placeholder = "Requried" } })
+                                    @Html.ValidationMessageFor(model => model.ExpiredDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-md-offset-8 col-md-4">
+                                    <input type="submit" value="Create" class="btn btn-primary col-md-12" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        @if (Model != null)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            <span class="glyphicon glyphicon-user">&nbsp;</span>
+                            Upload Picture
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <img src="~/Content/img/noavatar.jpg" class="img-thumbnail" />
+                        <input type="file" />
+                        <input type="submit" value="Upload File" class="btn btn-primary col-md-12" />
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </div>
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+}

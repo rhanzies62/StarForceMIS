@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5fccb04ba1b545c6977828b7b021bbf0" Name="Diagram1">
+        <EntityTypeShape EntityType="StarforceDBModel.Attendance" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.DayOffSchedule" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Guard" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.GuardPosition" Width="1.5" PointX="6" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Position" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Report" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Schedule" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <AssociationConnector Association="StarforceDBModel.FK_Attendance_Guard" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.FK_DayOffSchedule_Guard" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.FK_GuardPosition_Guard" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.FK_Schedule_Guard" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.FK_GuardPosition_Position" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

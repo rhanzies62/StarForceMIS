@@ -1,0 +1,74 @@
+﻿@model IEnumerable<StarForceMIS.Web.Models.GuardViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+<br />
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title pull-left">
+            <span class="glyphicon glyphicon-user">&nbsp;</span>
+            StarForce Security Guard List
+        </h3>
+        <a href="/SGManagement/NewGuard" class="btn btn-sm btn-default pull-right glyphicon glyphicon-plus"></a>
+        <div class="clearfix"></div>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.MiddleName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CallSign)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LicensedNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ExpiredDate)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FirstName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MiddleName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LastName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CallSign)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LicensedNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ExpiredDate)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                            @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

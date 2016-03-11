@@ -1,0 +1,458 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StarforceDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="GuardID" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="GuardID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="HoursOfWork" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DayOffSchedule">
+          <Key>
+            <PropertyRef Name="GuardID" />
+            <PropertyRef Name="DayOffDate" />
+          </Key>
+          <Property Name="GuardID" Type="bigint" Nullable="false" />
+          <Property Name="DayOffDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Guard">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MiddleName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CallSign" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LicesnedNumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="DateExpiry" Type="datetime" />
+          <Property Name="Position" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="CreatedBy" Type="int" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedBy" Type="int" Nullable="false" />
+          <Property Name="UpdatedDate" Type="datetime" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="IsReliver" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GuardPosition">
+          <Key>
+            <PropertyRef Name="GuardID" />
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="GuardID" Type="bigint" Nullable="false" />
+          <Property Name="PositionID" Type="bigint" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Thru" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ThruPosition" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Subject" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Re" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Body" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="GuardID" />
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="GuardID" Type="bigint" Nullable="false" />
+          <Property Name="PositionID" Type="bigint" Nullable="false" />
+          <Property Name="DesignationDate" Type="datetime" Nullable="false" />
+          <Property Name="TourOfDuty" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Attendance_Guard">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DayOffSchedule_Guard">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="DayOffSchedule" Type="Self.DayOffSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DayOffSchedule">
+              <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GuardPosition_Guard">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="GuardPosition" Type="Self.GuardPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GuardPosition">
+              <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GuardPosition_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="GuardPosition" Type="Self.GuardPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GuardPosition">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Guard">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StarforceDBModelStoreContainer">
+          <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DayOffSchedule" EntityType="Self.DayOffSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Guard" EntityType="Self.Guard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GuardPosition" EntityType="Self.GuardPosition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Attendance_Guard" Association="Self.FK_Attendance_Guard">
+            <End Role="Guard" EntitySet="Guard" />
+            <End Role="Attendance" EntitySet="Attendance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DayOffSchedule_Guard" Association="Self.FK_DayOffSchedule_Guard">
+            <End Role="Guard" EntitySet="Guard" />
+            <End Role="DayOffSchedule" EntitySet="DayOffSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GuardPosition_Guard" Association="Self.FK_GuardPosition_Guard">
+            <End Role="Guard" EntitySet="Guard" />
+            <End Role="GuardPosition" EntitySet="GuardPosition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GuardPosition_Position" Association="Self.FK_GuardPosition_Position">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="GuardPosition" EntitySet="GuardPosition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Guard" Association="Self.FK_Schedule_Guard">
+            <End Role="Guard" EntitySet="Guard" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StarforceDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Attendance">
+          <Key>
+            <PropertyRef Name="GuardID" />
+            <PropertyRef Name="CreatedDate" />
+          </Key>
+          <Property Name="GuardID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="HoursOfWork" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Guard" Relationship="Self.FK_Attendance_Guard" FromRole="Attendance" ToRole="Guard" />
+        </EntityType>
+        <EntityType Name="DayOffSchedule">
+          <Key>
+            <PropertyRef Name="GuardID" />
+            <PropertyRef Name="DayOffDate" />
+          </Key>
+          <Property Name="GuardID" Type="Int64" Nullable="false" />
+          <Property Name="DayOffDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Guard" Relationship="Self.FK_DayOffSchedule_Guard" FromRole="DayOffSchedule" ToRole="Guard" />
+        </EntityType>
+        <EntityType Name="Guard">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CallSign" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LicesnedNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateExpiry" Type="DateTime" Precision="3" />
+          <Property Name="Position" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedBy" Type="Int32" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedBy" Type="Int32" Nullable="false" />
+          <Property Name="UpdatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="IsReliver" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Attendances" Relationship="Self.FK_Attendance_Guard" FromRole="Guard" ToRole="Attendance" />
+          <NavigationProperty Name="DayOffSchedules" Relationship="Self.FK_DayOffSchedule_Guard" FromRole="Guard" ToRole="DayOffSchedule" />
+          <NavigationProperty Name="GuardPositions" Relationship="Self.FK_GuardPosition_Guard" FromRole="Guard" ToRole="GuardPosition" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_Guard" FromRole="Guard" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="GuardPosition">
+          <Key>
+            <PropertyRef Name="GuardID" />
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="GuardID" Type="Int64" Nullable="false" />
+          <Property Name="PositionID" Type="Int64" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Guard" Relationship="Self.FK_GuardPosition_Guard" FromRole="GuardPosition" ToRole="Guard" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_GuardPosition_Position" FromRole="GuardPosition" ToRole="Position" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="GuardPositions" Relationship="Self.FK_GuardPosition_Position" FromRole="Position" ToRole="GuardPosition" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="ReportID" />
+          </Key>
+          <Property Name="ReportID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Thru" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ThruPosition" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Subject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Re" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Body" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Schedule">
+          <Key>
+            <PropertyRef Name="GuardID" />
+            <PropertyRef Name="PositionID" />
+          </Key>
+          <Property Name="GuardID" Type="Int64" Nullable="false" />
+          <Property Name="PositionID" Type="Int64" Nullable="false" />
+          <Property Name="DesignationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TourOfDuty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Guard" Relationship="Self.FK_Schedule_Guard" FromRole="Schedule" ToRole="Guard" />
+        </EntityType>
+        <Association Name="FK_Attendance_Guard">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Attendance">
+              <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DayOffSchedule_Guard">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="DayOffSchedule" Type="Self.DayOffSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DayOffSchedule">
+              <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GuardPosition_Guard">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="GuardPosition" Type="Self.GuardPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GuardPosition">
+              <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Guard">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GuardPosition_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="GuardPosition" Type="Self.GuardPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="GuardPosition">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StarforceDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Attendances" EntityType="Self.Attendance" />
+          <EntitySet Name="DayOffSchedules" EntityType="Self.DayOffSchedule" />
+          <EntitySet Name="Guards" EntityType="Self.Guard" />
+          <EntitySet Name="GuardPositions" EntityType="Self.GuardPosition" />
+          <EntitySet Name="Positions" EntityType="Self.Position" />
+          <EntitySet Name="Reports" EntityType="Self.Report" />
+          <EntitySet Name="Schedules" EntityType="Self.Schedule" />
+          <AssociationSet Name="FK_Attendance_Guard" Association="Self.FK_Attendance_Guard">
+            <End Role="Guard" EntitySet="Guards" />
+            <End Role="Attendance" EntitySet="Attendances" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DayOffSchedule_Guard" Association="Self.FK_DayOffSchedule_Guard">
+            <End Role="Guard" EntitySet="Guards" />
+            <End Role="DayOffSchedule" EntitySet="DayOffSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GuardPosition_Guard" Association="Self.FK_GuardPosition_Guard">
+            <End Role="Guard" EntitySet="Guards" />
+            <End Role="GuardPosition" EntitySet="GuardPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Guard" Association="Self.FK_Schedule_Guard">
+            <End Role="Guard" EntitySet="Guards" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GuardPosition_Position" Association="Self.FK_GuardPosition_Position">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="GuardPosition" EntitySet="GuardPositions" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StarforceDBModelStoreContainer" CdmEntityContainer="StarforceDBEntities">
+          <EntitySetMapping Name="Attendances">
+            <EntityTypeMapping TypeName="StarforceDBModel.Attendance">
+              <MappingFragment StoreEntitySet="Attendance">
+                <ScalarProperty Name="GuardID" ColumnName="GuardID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="HoursOfWork" ColumnName="HoursOfWork" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DayOffSchedules">
+            <EntityTypeMapping TypeName="StarforceDBModel.DayOffSchedule">
+              <MappingFragment StoreEntitySet="DayOffSchedule">
+                <ScalarProperty Name="GuardID" ColumnName="GuardID" />
+                <ScalarProperty Name="DayOffDate" ColumnName="DayOffDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Guards">
+            <EntityTypeMapping TypeName="StarforceDBModel.Guard">
+              <MappingFragment StoreEntitySet="Guard">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="CallSign" ColumnName="CallSign" />
+                <ScalarProperty Name="LicesnedNumber" ColumnName="LicesnedNumber" />
+                <ScalarProperty Name="DateExpiry" ColumnName="DateExpiry" />
+                <ScalarProperty Name="Position" ColumnName="Position" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="UpdatedDate" ColumnName="UpdatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsReliver" ColumnName="IsReliver" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GuardPositions">
+            <EntityTypeMapping TypeName="StarforceDBModel.GuardPosition">
+              <MappingFragment StoreEntitySet="GuardPosition">
+                <ScalarProperty Name="GuardID" ColumnName="GuardID" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="StarforceDBModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="StarforceDBModel.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="ReportID" ColumnName="ReportID" />
+                <ScalarProperty Name="Thru" ColumnName="Thru" />
+                <ScalarProperty Name="ThruPosition" ColumnName="ThruPosition" />
+                <ScalarProperty Name="Subject" ColumnName="Subject" />
+                <ScalarProperty Name="Re" ColumnName="Re" />
+                <ScalarProperty Name="Body" ColumnName="Body" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schedules">
+            <EntityTypeMapping TypeName="StarforceDBModel.Schedule">
+              <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="GuardID" ColumnName="GuardID" />
+                <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="DesignationDate" ColumnName="DesignationDate" />
+                <ScalarProperty Name="TourOfDuty" ColumnName="TourOfDuty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

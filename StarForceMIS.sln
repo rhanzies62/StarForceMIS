@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarForceMIS.Web", "StarForceMIS.Web\StarForceMIS.Web.csproj", "{D80F2A9A-0C5C-41E1-B7A5-3D35F3AFFB3B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarForceMIS.BLL", "StarForceMIS.BLL\StarForceMIS.BLL.csproj", "{AEE15746-AD80-4688-8F84-28CDD00EEEEE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D80F2A9A-0C5C-41E1-B7A5-3D35F3AFFB3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D80F2A9A-0C5C-41E1-B7A5-3D35F3AFFB3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D80F2A9A-0C5C-41E1-B7A5-3D35F3AFFB3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D80F2A9A-0C5C-41E1-B7A5-3D35F3AFFB3B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE15746-AD80-4688-8F84-28CDD00EEEEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE15746-AD80-4688-8F84-28CDD00EEEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE15746-AD80-4688-8F84-28CDD00EEEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE15746-AD80-4688-8F84-28CDD00EEEEE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
