@@ -40,5 +40,17 @@ namespace StarForceMIS.Web.Controllers
         {
             return View(model);
         }
+
+        [HttpGet]
+        public ActionResult Attendance()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult DayOffSchedule() 
+        {
+            return View();
+        }
     }
 }

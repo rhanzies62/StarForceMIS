@@ -1,0 +1,41 @@
+﻿@model IEnumerable<StarForceMIS.Web.Models.GuardViewModel>
+
+@{
+    ViewBag.Title = "Attendance";
+}
+
+<br />
+<div class="container">
+    <h3>@DateTime.UtcNow.ToLongDateString() - Guard Attendance</h3>
+    <div class="row">
+        @for (int a = 1; a <= 10; a++)
+        {
+            <div class="col-md-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <strong class="text-center">
+                            Francis Cebu
+                        </strong>
+                    </div>
+                    <div class="panel-body">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <img class="img-thumbnail" src="~/Content/img/noavatar.jpg" />
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <button class="btn btn-primary col-md-12">Present</button>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-danger col-md-12">Absent</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
