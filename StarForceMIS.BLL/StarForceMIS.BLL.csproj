@@ -48,12 +48,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IGuardService.cs" />
     <Compile Include="Model\Attendance.cs">
       <DependentUpon>StarForceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DayOffSchedule.cs">
       <DependentUpon>StarForceMISModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Model\Entities\Guard.cs" />
     <Compile Include="Model\Guard.cs">
       <DependentUpon>StarForceMISModel.tt</DependentUpon>
     </Compile>
@@ -85,6 +87,12 @@
       <DependentUpon>StarForceMISModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\GuardService.cs" />
+    <Compile Include="ViewModel\Callback.cs" />
+    <Compile Include="ViewModel\GuardScheduleViewModel.cs" />
+    <Compile Include="ViewModel\GuardViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleDetailViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Model\StarForceMISModel.Context.tt">
@@ -112,6 +120,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

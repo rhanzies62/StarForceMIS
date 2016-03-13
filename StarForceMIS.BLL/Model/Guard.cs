@@ -32,8 +32,8 @@ namespace StarForceMIS.BLL.Model
         public string Position { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public int UpdatedBy { get; set; }
-        public System.DateTime UpdatedDate { get; set; }
+        public Nullable<int> UpdatedBy { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
         public bool IsActive { get; set; }
         public bool IsReliver { get; set; }
     

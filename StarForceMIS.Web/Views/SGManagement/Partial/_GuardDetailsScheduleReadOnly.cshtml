@@ -1,0 +1,76 @@
+﻿@model StarForceMIS.Web.Models.GuardViewModel
+<div class="row">
+    <hr />
+    @if (Model != null)
+    {
+        <div class="row">
+            <div class="col-md-3 col-md-offset-4">
+                <img src="@Url.Action("GetUserImage", new { id = Model.ID })" class="img-thumbnail" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "col-sm-12 control-label" })
+                <div class="col-sm-12">
+                    <p class="form-control-static">@Model.FirstName</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "col-sm-12 control-label" })
+                <div class="col-sm-12">
+                    <p class="form-control-static">@Model.MiddleName</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "col-sm-12 control-label" })
+                <div class="col-sm-12">
+                    <p class="form-control-static">@Model.LastName</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.CallSign, htmlAttributes: new { @class = "col-sm-12 control-label" })
+                <div class="col-sm-12">
+                    <p class="form-control-static">@Model.CallSign</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.LicensedNumber, htmlAttributes: new { @class = "col-sm-12 control-label" })
+                <div class="col-sm-12">
+                    <p class="form-control-static">@Model.LicensedNumber</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.ExpiredDate, htmlAttributes: new { @class = "col-sm-12 control-label" })
+                <div class="col-sm-12">
+                    <p class="form-control-static">@(Model.ExpiredDate == null ? "_" : Model.ExpiredDate.Value.ToShortDateString())</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                @Html.LabelFor(model => model.Designation, htmlAttributes: new { @class = "col-sm-12 control-label" })
+                <div class="col-sm-12">
+                    <p class="form-control-static">@Model.Designation</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="col-sm-12 control-label">Status</label>
+                <div class="col-sm-12">
+                    <p class="form-control-static">
+                        <span class="label label-@(Model.IsReliever ? "danger" : "info")">@(Model.IsReliever ? "Reliever" : "Regular")</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2">
+                @using (Html.BeginForm("ScheduleGuard", "SGManagement", FormMethod.Post, new { @class = "form-inline ", @id = "scheduleGuardForm" }))
+                {
+                    <div class="form-group">
+                        <label for="scheduleDate">Schedule Date:</label>
+                        <input type="text" class="form-control" id="scheduleDate" name="scheduleDate" placeholder="select a date" value="@DateTime.UtcNow.ToShortDateString()">
+                    </div>
+                    <button type="submit" class="btn btn-success">Schedule</button>
+                }
+            </div>
+        </div>
+    }
+</div>
