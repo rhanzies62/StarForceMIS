@@ -38,16 +38,25 @@ namespace StarForceMIS.BLL.Services
         {
             using (var db = new StarforceDBEntities())
             {
-                var entities = db.Guards.Select(entity => new GuardViewModel { 
-                            ID = entity.ID
-                            ,FirstName = entity.FirstName
-                            ,MiddleName = entity.MiddleName
-                            ,LastName = entity.LastName
-                            ,CallSign = entity.CallSign
-                            ,LicensedNumber = entity.LicesnedNumber
-                            ,ExpiredDate = entity.DateExpiry
-                            ,Designation = entity.Position
-                            ,IsReliever = entity.IsReliver
+                var entities = db.Guards.Select(entity => new GuardViewModel
+                {
+                    ID = entity.ID
+                    ,
+                    FirstName = entity.FirstName
+                    ,
+                    MiddleName = entity.MiddleName
+                    ,
+                    LastName = entity.LastName
+                    ,
+                    CallSign = entity.CallSign
+                    ,
+                    LicensedNumber = entity.LicesnedNumber
+                    ,
+                    ExpiredDate = entity.DateExpiry
+                    ,
+                    Designation = entity.Position
+                    ,
+                    IsReliever = entity.IsReliver
                 }).ToList();
                 return entities;
             }
@@ -55,21 +64,23 @@ namespace StarForceMIS.BLL.Services
 
         public List<GuardViewModel> SearchGuard(string queryString)
         {
-            using (var db = new StarforceDBEntities()) 
+            using (var db = new StarforceDBEntities())
             {
                 var entities = db.Guards
                         .Where(i => i.FirstName.Contains(queryString) || i.LastName.Contains(queryString))
-                        .Select(entity => new GuardViewModel { 
-                            ID = entity.ID
-                            ,FirstName = entity.FirstName
-                            ,MiddleName = entity.MiddleName
-                            ,LastName = entity.LastName
-                            ,CallSign = entity.CallSign
-                            ,LicensedNumber = entity.LicesnedNumber
-                            ,ExpiredDate = entity.DateExpiry
-                            ,Designation = entity.Position
-                            ,IsReliever = entity.IsReliver
-                }).ToList();
+                        .Select(entity => new GuardViewModel
+                        {
+                            ID = entity.ID,
+                            FirstName = entity.FirstName,
+                            MiddleName = entity.MiddleName,
+                            LastName = entity.LastName,
+                            CallSign = entity.CallSign,
+                            LicensedNumber = entity.LicesnedNumber,
+                            ExpiredDate = entity.DateExpiry,
+                            Designation = entity.Position,
+                            IsReliever = entity.IsReliver
+                        }).ToList();
+
                 return entities;
             }
         }
@@ -111,7 +122,6 @@ namespace StarForceMIS.BLL.Services
             throw new NotImplementedException();
         }
 
-
         public GuardViewModel GetGuardByID(long id)
         {
             using (var db = new StarforceDBEntities())
@@ -119,10 +129,60 @@ namespace StarForceMIS.BLL.Services
                 GuardViewModel model = new GuardViewModel();
                 var entity = db.Guards.Where(i => i.ID.Equals(id)).FirstOrDefault();
                 if (entity != null)
+                {
                     model = new GuardViewModel(entity);
+                    model.ScheduleLookUp = db.ScheduleLookUps.Select(i => new MonthlySchedule
+                    {
+                        ID = i.ID,
+                        From = i.DateFrom,
+                        Title = i.Title,
+                        To = i.DateTo
+                    }).ToList();
+                    model.TourOfDutyLookUp = db.TourOfDutyLookUps.Select(i => new StarForceMIS.Web.Models.TourOfDutyLookUp
+                    {
+                        ID = i.ID,
+                        TourOfDuty = i.TourOfDuty
+                    }).ToList();
+                    model.PositionLookUp = db.Positions.Select(i => new PositionLookUp
+                    {
+                        ID = i.ID,
+                        Title = i.Title
+                    }).ToList();
+                }
 
                 return model;
 
+            }
+        }
+
+        public Callback<GuardViewModel> ScheduleGuard(GuardViewModel model)
+        {
+            using (var db = new StarforceDBEntities())
+            {
+                var result = new Callback<GuardViewModel>();
+                var verifySched = db.Schedules.Where(i => i.PositionID.Equals(model.PositionID)
+                        && i.ScheduleID.Equals(model.ScheduleID)
+                        && i.TourOfDutyID.Equals(model.TourOfDutyID));
+                if (!verifySched.Any())
+                {
+                    var scheduleEntity = new Schedule()
+                    {
+                        GuardID = model.ID,
+                        PositionID = model.PositionID,
+                        ScheduleID = model.ScheduleID,
+                        TourOfDutyID = model.TourOfDutyID
+                    };
+
+                    db.Schedules.Add(scheduleEntity);
+                    db.SaveChanges();
+                    result.SuccessResult(string.Empty);
+                }
+                else
+                {
+                    var guard = verifySched.FirstOrDefault();
+                    result.FailResult(string.Format("{0} is already assigned in this sched", guard.Guard.CallSign));
+                }
+                return result;
             }
         }
     }

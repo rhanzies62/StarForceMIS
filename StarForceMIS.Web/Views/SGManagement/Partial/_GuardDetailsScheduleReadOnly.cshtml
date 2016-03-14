@@ -61,13 +61,25 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-10 col-md-offset-2">
-                @using (Html.BeginForm("ScheduleGuard", "SGManagement", FormMethod.Post, new { @class = "form-inline ", @id = "scheduleGuardForm" }))
+            <div class="col-md-10">
+                @using (Html.BeginForm("ScheduleGuard", "SGManagement", FormMethod.Post, new { @class = "", @id = "scheduleGuardForm" }))
                 {
+                    <hr />
+                    <h4>Set Schedule</h4>
+                    @Html.HiddenFor(model => model.ID);
                     <div class="form-group">
-                        <label for="scheduleDate">Schedule Date:</label>
-                        <input type="text" class="form-control" id="scheduleDate" name="scheduleDate" placeholder="select a date" value="@DateTime.UtcNow.ToShortDateString()">
+                        @Html.LabelFor(model => model.PositionID, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.PositionID, new SelectList(Model.PositionLookUp, "ID", "Title", Model.ScheduleLookUp.First().ID), new { @class = "form-control" })
                     </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ScheduleID, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.ScheduleID, new SelectList(Model.ScheduleLookUp, "ID", "Title", Model.ScheduleLookUp.First().ID), new { @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.TourOfDutyID, htmlAttributes: new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.TourOfDutyID, new SelectList(Model.TourOfDutyLookUp, "ID", "TourOfDuty", Model.ScheduleLookUp.First().ID), new { @class = "form-control" })
+                    </div>
+
                     <button type="submit" class="btn btn-success">Schedule</button>
                 }
             </div>

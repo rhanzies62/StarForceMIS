@@ -134,5 +134,12 @@ namespace StarForceMIS.Web.Controllers
             return PartialView("partial/_GuardDetailsScheduleReadOnly",model);
         }
 
+        [HttpPost]
+        public ActionResult ScheduleGuard(GuardViewModel model)
+        {
+            var result = _guardService.ScheduleGuard(model);
+            return RedirectToAction("Schedule");
+        }
+
     }
 }

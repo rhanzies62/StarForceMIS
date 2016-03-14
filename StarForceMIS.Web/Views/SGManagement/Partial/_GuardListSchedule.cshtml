@@ -32,7 +32,7 @@
     }
     else if(Model.Count() == 1)
     {
-        @Html.Partial("partial/_GuardDetailsScheduleReadOnly", Model.FirstOrDefault());
+        @Html.Action("GetGuardDetails", new { id = Model.FirstOrDefault().ID});
     }
     else
     {

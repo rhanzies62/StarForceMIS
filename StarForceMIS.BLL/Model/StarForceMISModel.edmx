@@ -77,7 +77,23 @@
           </Key>
           <Property Name="GuardID" Type="bigint" Nullable="false" />
           <Property Name="PositionID" Type="bigint" Nullable="false" />
-          <Property Name="DesignationDate" Type="datetime" Nullable="false" />
+          <Property Name="ScheduleID" Type="bigint" Nullable="false" />
+          <Property Name="TourOfDutyID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ScheduleLookUp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateFrom" Type="datetime" Nullable="false" />
+          <Property Name="DateTo" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TourOfDutyLookUp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TourOfDuty" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Attendance_Guard">
@@ -140,6 +156,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Schedule_ScheduleLookUp">
+          <End Role="ScheduleLookUp" Type="Self.ScheduleLookUp" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleLookUp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ScheduleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_TourOfDutyLookUp">
+          <End Role="TourOfDutyLookUp" Type="Self.TourOfDutyLookUp" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TourOfDutyLookUp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="TourOfDutyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="StarforceDBModelStoreContainer">
           <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DayOffSchedule" EntityType="Self.DayOffSchedule" Schema="dbo" store:Type="Tables" />
@@ -148,6 +188,8 @@
           <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScheduleLookUp" EntityType="Self.ScheduleLookUp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TourOfDutyLookUp" EntityType="Self.TourOfDutyLookUp" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Attendance_Guard" Association="Self.FK_Attendance_Guard">
             <End Role="Guard" EntitySet="Guard" />
             <End Role="Attendance" EntitySet="Attendance" />
@@ -166,6 +208,14 @@
           </AssociationSet>
           <AssociationSet Name="FK_Schedule_Guard" Association="Self.FK_Schedule_Guard">
             <End Role="Guard" EntitySet="Guard" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_ScheduleLookUp" Association="Self.FK_Schedule_ScheduleLookUp">
+            <End Role="ScheduleLookUp" EntitySet="ScheduleLookUp" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_TourOfDutyLookUp" Association="Self.FK_Schedule_TourOfDutyLookUp">
+            <End Role="TourOfDutyLookUp" EntitySet="TourOfDutyLookUp" />
             <End Role="Schedule" EntitySet="Schedule" />
           </AssociationSet>
         </EntityContainer>
@@ -254,9 +304,11 @@
           </Key>
           <Property Name="GuardID" Type="Int64" Nullable="false" />
           <Property Name="PositionID" Type="Int64" Nullable="false" />
-          <Property Name="DesignationDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="TourOfDuty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Guard" Relationship="Self.FK_Schedule_Guard" FromRole="Schedule" ToRole="Guard" />
+          <Property Name="ScheduleID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ScheduleLookUp" Relationship="StarforceDBModel.FK_Schedule_ScheduleLookUp" FromRole="Schedule" ToRole="ScheduleLookUp" />
+          <Property Name="TourOfDutyID" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="TourOfDutyLookUp" Relationship="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" FromRole="Schedule" ToRole="TourOfDutyLookUp" />
         </EntityType>
         <Association Name="FK_Attendance_Guard">
           <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
@@ -346,7 +398,59 @@
             <End Role="Position" EntitySet="Positions" />
             <End Role="GuardPosition" EntitySet="GuardPositions" />
           </AssociationSet>
+          <EntitySet Name="ScheduleLookUps" EntityType="StarforceDBModel.ScheduleLookUp" />
+          <AssociationSet Name="FK_Schedule_ScheduleLookUp" Association="StarforceDBModel.FK_Schedule_ScheduleLookUp">
+            <End Role="ScheduleLookUp" EntitySet="ScheduleLookUps" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <EntitySet Name="TourOfDutyLookUps" EntityType="StarforceDBModel.TourOfDutyLookUp" />
+          <AssociationSet Name="FK_Schedule_TourOfDutyLookUp" Association="StarforceDBModel.FK_Schedule_TourOfDutyLookUp">
+            <End Role="TourOfDutyLookUp" EntitySet="TourOfDutyLookUps" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ScheduleLookUp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateTo" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Schedules" Relationship="StarforceDBModel.FK_Schedule_ScheduleLookUp" FromRole="ScheduleLookUp" ToRole="Schedule" />
+        </EntityType>
+        <Association Name="FK_Schedule_ScheduleLookUp">
+          <End Type="StarforceDBModel.ScheduleLookUp" Role="ScheduleLookUp" Multiplicity="1" />
+          <End Type="StarforceDBModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleLookUp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ScheduleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TourOfDutyLookUp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TourOfDuty" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Schedules" Relationship="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" FromRole="TourOfDutyLookUp" ToRole="Schedule" />
+        </EntityType>
+        <Association Name="FK_Schedule_TourOfDutyLookUp">
+          <End Type="StarforceDBModel.TourOfDutyLookUp" Role="TourOfDutyLookUp" Multiplicity="1" />
+          <End Type="StarforceDBModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TourOfDutyLookUp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="TourOfDutyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -424,10 +528,28 @@
           <EntitySetMapping Name="Schedules">
             <EntityTypeMapping TypeName="StarforceDBModel.Schedule">
               <MappingFragment StoreEntitySet="Schedule">
+                <ScalarProperty Name="TourOfDutyID" ColumnName="TourOfDutyID" />
+                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
                 <ScalarProperty Name="GuardID" ColumnName="GuardID" />
                 <ScalarProperty Name="PositionID" ColumnName="PositionID" />
-                <ScalarProperty Name="DesignationDate" ColumnName="DesignationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScheduleLookUps">
+            <EntityTypeMapping TypeName="StarforceDBModel.ScheduleLookUp">
+              <MappingFragment StoreEntitySet="ScheduleLookUp">
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TourOfDutyLookUps">
+            <EntityTypeMapping TypeName="StarforceDBModel.TourOfDutyLookUp">
+              <MappingFragment StoreEntitySet="TourOfDutyLookUp">
                 <ScalarProperty Name="TourOfDuty" ColumnName="TourOfDuty" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

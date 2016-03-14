@@ -12,15 +12,18 @@ namespace StarForceMIS.BLL.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Schedule
+    public partial class ScheduleLookUp
     {
-        public long GuardID { get; set; }
-        public long PositionID { get; set; }
-        public long ScheduleID { get; set; }
-        public long TourOfDutyID { get; set; }
+        public ScheduleLookUp()
+        {
+            this.Schedules = new HashSet<Schedule>();
+        }
     
-        public virtual Guard Guard { get; set; }
-        public virtual ScheduleLookUp ScheduleLookUp { get; set; }
-        public virtual TourOfDutyLookUp TourOfDutyLookUp { get; set; }
+        public long ID { get; set; }
+        public string Title { get; set; }
+        public System.DateTime DateFrom { get; set; }
+        public System.DateTime DateTo { get; set; }
+    
+        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

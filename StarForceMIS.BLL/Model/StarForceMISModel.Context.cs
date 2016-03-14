@@ -32,5 +32,7 @@ namespace StarForceMIS.BLL.Model
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<Schedule> Schedules { get; set; }
+        public virtual DbSet<ScheduleLookUp> ScheduleLookUps { get; set; }
+        public virtual DbSet<TourOfDutyLookUp> TourOfDutyLookUps { get; set; }
     }
 }

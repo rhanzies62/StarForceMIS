@@ -21,7 +21,6 @@ namespace StarForceMIS.Web.Models
             this.ExpiredDate = entity.DateExpiry;
             this.Designation = entity.Position;
             this.IsReliever = entity.IsReliver;
-
         }
 
         public long ID { get; set; }
@@ -54,5 +53,39 @@ namespace StarForceMIS.Web.Models
         [Required]
         [Display(Name = "Is reliever")]
         public bool IsReliever { get; set; }
+
+        [Display(Name = "Schedule")]
+        public long ScheduleID { get; set; }
+
+        [Display(Name="Tour of Duty")]
+        public long TourOfDutyID { get; set; }
+
+        [Display(Name="Post/Location")]
+        public long PositionID { get; set; }
+
+        public List<MonthlySchedule> ScheduleLookUp { get; set; }
+        public List<TourOfDutyLookUp> TourOfDutyLookUp { get; set; }
+        public List<PositionLookUp> PositionLookUp { get; set; }
+    }
+
+    public class PositionLookUp 
+    {
+        public long ID { get; set; }
+        public string Title { get; set; }
+    }
+
+
+    public class TourOfDutyLookUp
+    {
+        public long ID { get; set; }
+        public string TourOfDuty { get; set; }
+    }
+
+    public class MonthlySchedule 
+    {
+        public long ID { get; set; }
+        public string Title { get; set; }
+        public DateTime From { get; set; }
+        public DateTime To { get; set; }
     }
 }

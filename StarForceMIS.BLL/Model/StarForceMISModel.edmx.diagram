@@ -17,6 +17,10 @@
         <AssociationConnector Association="StarforceDBModel.FK_GuardPosition_Guard" ManuallyRouted="false" />
         <AssociationConnector Association="StarforceDBModel.FK_Schedule_Guard" ManuallyRouted="false" />
         <AssociationConnector Association="StarforceDBModel.FK_GuardPosition_Position" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="StarforceDBModel.ScheduleLookUp" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="StarforceDBModel.FK_Schedule_ScheduleLookUp" />
+        <EntityTypeShape EntityType="StarforceDBModel.TourOfDutyLookUp" Width="1.5" PointX="8.375" PointY="0.875" />
+        <AssociationConnector Association="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

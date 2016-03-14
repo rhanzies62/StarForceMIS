@@ -15,5 +15,6 @@ namespace StarForceMIS.BLL.Interface
         List<GuardViewModel> SearchGuard(string queryString);
         Callback<GuardViewModel> UpdateGuard(GuardViewModel model);
         Callback<GuardViewModel> RemoveGuard(int id);
+        Callback<GuardViewModel> ScheduleGuard(GuardViewModel model);
     }
 }
