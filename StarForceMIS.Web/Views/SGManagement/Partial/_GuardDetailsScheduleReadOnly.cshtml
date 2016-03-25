@@ -65,6 +65,9 @@
                 @using (Html.BeginForm("ScheduleGuard", "SGManagement", FormMethod.Post, new { @class = "", @id = "scheduleGuardForm" }))
                 {
                     <hr />
+                    <div class="result">
+
+                    </div>
                     <h4>Set Schedule</h4>
                     @Html.HiddenFor(model => model.ID);
                     <div class="form-group">

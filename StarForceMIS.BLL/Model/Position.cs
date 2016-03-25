@@ -17,6 +17,7 @@ namespace StarForceMIS.BLL.Model
         public Position()
         {
             this.GuardPositions = new HashSet<GuardPosition>();
+            this.Schedules = new HashSet<Schedule>();
         }
     
         public long ID { get; set; }
@@ -24,5 +25,6 @@ namespace StarForceMIS.BLL.Model
         public System.DateTime CreatedDate { get; set; }
     
         public virtual ICollection<GuardPosition> GuardPositions { get; set; }
+        public virtual ICollection<Schedule> Schedules { get; set; }
     }
 }

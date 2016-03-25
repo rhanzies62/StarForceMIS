@@ -1,4 +1,5 @@
 ﻿using StarForceMIS.BLL.Interface;
+using StarForceMIS.BLL.Services;
 using StarForceMIS.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,14 @@ namespace StarForceMIS.Web.Controllers
     [Authorize]
     public class HomeController : Controller
     {
+        private readonly IGuardService _guardService;
+        private readonly IMonthlyScheduleService _monthlyScheduleService;
+        public HomeController() 
+        {
+            _guardService = new GuardService();
+            _monthlyScheduleService = new MonthlyScheduleService();
+        }
+
 
         public ActionResult Index()
         {
@@ -21,8 +30,9 @@ namespace StarForceMIS.Web.Controllers
         public ActionResult GuardSchedule()
         {
             var model = new GuardScheduleViewModel();
-            model.DayShift = new List<ScheduleDetailViewModel>();
-            model.NightShift = new List<ScheduleDetailViewModel>();
+            var currentSched = _monthlyScheduleService.RetrieveCurrentSchedule();
+            model.DayShift = _guardService.RetrieveScheduleGuard(1, currentSched);
+            model.NightShift = _guardService.RetrieveScheduleGuard(2, currentSched);
             return View(model);
         }
 
@@ -30,8 +40,8 @@ namespace StarForceMIS.Web.Controllers
         [ChildActionOnly]
         public ActionResult GuardList() 
         {
-            var model = new List<GuardViewModel>();
-            return View(model);
+            var guards = _guardService.RetrieveGuards();
+            return View(guards);
         }
 
         [HttpPost]

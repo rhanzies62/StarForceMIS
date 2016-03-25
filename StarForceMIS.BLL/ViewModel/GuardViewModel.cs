@@ -74,7 +74,6 @@ namespace StarForceMIS.Web.Models
         public string Title { get; set; }
     }
 
-
     public class TourOfDutyLookUp
     {
         public long ID { get; set; }

@@ -245,6 +245,8 @@
     <Content Include="Views\SGManagement\Partial\_GuardList.cshtml" />
     <Content Include="Views\SGManagement\Partial\_GuardListSchedule.cshtml" />
     <Content Include="Views\SGManagement\Partial\_GuardDetailsScheduleReadOnly.cshtml" />
+    <Content Include="Views\SGManagement\Partial\_GuardSchedules.cshtml" />
+    <Content Include="Views\SGManagement\Partial\_ScheduleCallback.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

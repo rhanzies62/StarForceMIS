@@ -1,0 +1,17 @@
+﻿@model StarForceMIS.Web.Models.Callback<StarForceMIS.Web.Models.GuardViewModel>
+@{
+    Layout = null;
+}
+@if (!Model.Success)
+{
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <span class="glyphicon glyphicon-remove"></span> <strong>Warning!</strong> @Model.Message
+    </div>
+}
+else
+{
+    <div class="alert alert-success alert-dismissible" role="alert">
+        <span class="glyphicon glyphicon-ok"></span> guard successfully scheduled.
+    </div>
+}
+

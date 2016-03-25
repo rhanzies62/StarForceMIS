@@ -1,0 +1,52 @@
+﻿@model StarForceMIS.Web.Models.GuardScheduleViewModel
+
+@if (Model != null)
+{
+    if (Model.DayShift != null)
+    {
+        <h4>Morning Shift</h4>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Call Sign</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.DayShift)
+                {
+                    <tr>
+                        <td>@i.Name</td>
+                        <td>@i.Position</td>
+                        <td>@i.CallSign</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <hr />
+    }
+    if (Model.NightShift != null)
+    {
+        <h4>Night Shift</h4>
+        <table class="table table-hover table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Call Sign</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model.NightShift)
+                {
+                    <tr>
+                        <td>@i.Name</td>
+                        <td>@i.Position</td>
+                        <td>@i.CallSign</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}

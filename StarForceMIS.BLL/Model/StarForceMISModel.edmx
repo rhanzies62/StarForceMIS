@@ -156,6 +156,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Schedule_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Schedule_ScheduleLookUp">
           <End Role="ScheduleLookUp" Type="Self.ScheduleLookUp" Multiplicity="1" />
           <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
@@ -208,6 +220,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_Schedule_Guard" Association="Self.FK_Schedule_Guard">
             <End Role="Guard" EntitySet="Guard" />
+            <End Role="Schedule" EntitySet="Schedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Position" Association="Self.FK_Schedule_Position">
+            <End Role="Position" EntitySet="Position" />
             <End Role="Schedule" EntitySet="Schedule" />
           </AssociationSet>
           <AssociationSet Name="FK_Schedule_ScheduleLookUp" Association="Self.FK_Schedule_ScheduleLookUp">
@@ -284,6 +300,7 @@
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="GuardPositions" Relationship="Self.FK_GuardPosition_Position" FromRole="Position" ToRole="GuardPosition" />
+          <NavigationProperty Name="Schedules" Relationship="StarforceDBModel.FK_Schedule_Position" FromRole="Position" ToRole="Schedule" />
         </EntityType>
         <EntityType Name="Report">
           <Key>
@@ -309,6 +326,7 @@
           <NavigationProperty Name="ScheduleLookUp" Relationship="StarforceDBModel.FK_Schedule_ScheduleLookUp" FromRole="Schedule" ToRole="ScheduleLookUp" />
           <Property Name="TourOfDutyID" Type="Int64" Nullable="false" />
           <NavigationProperty Name="TourOfDutyLookUp" Relationship="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" FromRole="Schedule" ToRole="TourOfDutyLookUp" />
+          <NavigationProperty Name="Position" Relationship="StarforceDBModel.FK_Schedule_Position" FromRole="Schedule" ToRole="Position" />
         </EntityType>
         <Association Name="FK_Attendance_Guard">
           <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
@@ -408,6 +426,10 @@
             <End Role="TourOfDutyLookUp" EntitySet="TourOfDutyLookUps" />
             <End Role="Schedule" EntitySet="Schedules" />
           </AssociationSet>
+          <AssociationSet Name="FK_Schedule_Position" Association="StarforceDBModel.FK_Schedule_Position">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ScheduleLookUp">
           <Key>
@@ -448,6 +470,18 @@
             </Principal>
             <Dependent Role="Schedule">
               <PropertyRef Name="TourOfDutyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_Position">
+          <End Type="StarforceDBModel.Position" Role="Position" Multiplicity="1" />
+          <End Type="StarforceDBModel.Schedule" Role="Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="PositionID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

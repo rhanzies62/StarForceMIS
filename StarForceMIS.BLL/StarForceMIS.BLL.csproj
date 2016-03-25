@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IGuardService.cs" />
+    <Compile Include="Interface\IMonthlyScheduleService.cs" />
     <Compile Include="Model\Attendance.cs">
       <DependentUpon>StarForceMISModel.tt</DependentUpon>
     </Compile>
@@ -94,6 +95,7 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\GuardService.cs" />
+    <Compile Include="Services\MonthlyScheduleService.cs" />
     <Compile Include="ViewModel\Callback.cs" />
     <Compile Include="ViewModel\GuardScheduleViewModel.cs" />
     <Compile Include="ViewModel\GuardViewModel.cs" />

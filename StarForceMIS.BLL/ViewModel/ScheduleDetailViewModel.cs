@@ -8,9 +8,10 @@ namespace StarForceMIS.Web.Models
 {
     public class ScheduleDetailViewModel
     {
-        public int GuardID { get; set; }
+        public long GuardID { get; set; }
         public string Name { get; set; }
         public string Position { get; set; }
+        public string CallSign { get; set; }
         public DateTime ScheduleDate { get; set; }
     }
 }

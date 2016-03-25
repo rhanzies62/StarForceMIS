@@ -21,6 +21,7 @@
         <AssociationConnector Association="StarforceDBModel.FK_Schedule_ScheduleLookUp" />
         <EntityTypeShape EntityType="StarforceDBModel.TourOfDutyLookUp" Width="1.5" PointX="8.375" PointY="0.875" />
         <AssociationConnector Association="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" />
+        <AssociationConnector Association="StarforceDBModel.FK_Schedule_Position" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

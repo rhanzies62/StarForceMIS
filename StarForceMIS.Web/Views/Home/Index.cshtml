@@ -1,25 +1,20 @@
-﻿@using StarForceMIS.Web.Models;
+﻿@model StarForceMIS.Web.Models.ScheduleViewModel
 @{
     ViewBag.Title = "Home";
 }
 
 <br />
 <div class="container">
-    <div class="row">
+    <div class="row hide">
         <div class="alert alert-warning col-md-11" role="alert">
             <strong>Warning!</strong> 5 out of 10 Guards attendance is not yet checked. click <a href="/SGManagement/Attendance">here</a> to fix
-        </div>
-    </div>
-    <div class="row">
-        <div class="alert alert-warning col-md-11" role="alert">
-            <strong>Warning!</strong> 2 out of 5 Guards in day off doesn't have any reliever. click <a href="/SGManagement/DayOffSchedule">here</a> to fix
         </div>
     </div>
     <div class="row">
         @using (Html.BeginForm("GuardSchedule", "Home", FormMethod.Post, new { @class = "form-inline col-md-6", @id = "SearchScheduleForm" }))
         {
             <h4>@string.Format("{0} {1}, {2} Guard Schedule", DateTime.UtcNow.ToString("MMMMMMMMMMMMM"), DateTime.UtcNow.Day, DateTime.UtcNow.Year)</h4>
-            <div class="col-md-7 col-md-offset-5">
+            <div class="col-md-7 col-md-offset-5 hide">
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Search specific date here" id="scheduleDate" name="query">
                 </div>

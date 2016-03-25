@@ -149,7 +149,6 @@ namespace StarForceMIS.BLL.Services
                         Title = i.Title
                     }).ToList();
                 }
-
                 return model;
 
             }
@@ -157,32 +156,68 @@ namespace StarForceMIS.BLL.Services
 
         public Callback<GuardViewModel> ScheduleGuard(GuardViewModel model)
         {
+            var result = new Callback<GuardViewModel>();
             using (var db = new StarforceDBEntities())
             {
-                var result = new Callback<GuardViewModel>();
                 var verifySched = db.Schedules.Where(i => i.PositionID.Equals(model.PositionID)
-                        && i.ScheduleID.Equals(model.ScheduleID)
-                        && i.TourOfDutyID.Equals(model.TourOfDutyID));
-                if (!verifySched.Any())
+                                && i.ScheduleID.Equals(model.ScheduleID)
+                                && i.TourOfDutyID.Equals(model.TourOfDutyID));
+                try
                 {
-                    var scheduleEntity = new Schedule()
+                    var getUserSched = db.Schedules.Where(i => i.GuardID.Equals(model.ID) && i.ScheduleID.Equals(model.ScheduleID));
+                    if (!getUserSched.Any())
                     {
-                        GuardID = model.ID,
-                        PositionID = model.PositionID,
-                        ScheduleID = model.ScheduleID,
-                        TourOfDutyID = model.TourOfDutyID
-                    };
+                        if (!verifySched.Any())
+                        {
+                            var scheduleEntity = new Schedule()
+                            {
+                                GuardID = model.ID,
+                                PositionID = model.PositionID,
+                                ScheduleID = model.ScheduleID,
+                                TourOfDutyID = model.TourOfDutyID
+                            };
 
-                    db.Schedules.Add(scheduleEntity);
-                    db.SaveChanges();
-                    result.SuccessResult(string.Empty);
+                            db.Schedules.Add(scheduleEntity);
+                            db.SaveChanges();
+                            result.SuccessResult(string.Empty);
+                        }
+                        else
+                        {
+                            var guard = verifySched.FirstOrDefault();
+                            result.FailResult(string.Format("{0} is already assigned in this sched", guard.Guard.CallSign));
+                        }
+                    }
+                    else
+                    {
+                        result.FailResult("This guard is already schedule in this date but in other shift");
+                    }
+
                 }
-                else
+                catch (Exception e)
                 {
-                    var guard = verifySched.FirstOrDefault();
-                    result.FailResult(string.Format("{0} is already assigned in this sched", guard.Guard.CallSign));
+                    result.FailResult(string.Format("{0} is already assigned in this sched", model.CallSign));
                 }
-                return result;
+            }
+
+            return result;
+
+        }
+
+        public List<ScheduleDetailViewModel> RetrieveScheduleGuard(long tourOfDuty, long scheduleID)
+        {
+            using (var db = new StarforceDBEntities())
+            {
+                var schedules = db.Schedules
+                    .Where(i => i.ScheduleID.Equals(scheduleID) && i.TourOfDutyID.Equals(tourOfDuty))
+                    .Select(i => new ScheduleDetailViewModel
+                    {
+                        CallSign = i.Guard.CallSign,
+                        GuardID = i.GuardID,
+                        Name = i.Guard.FirstName + " " + i.Guard.LastName,
+                        Position = i.Position.Title
+                    }).ToList();
+
+                return schedules;
             }
         }
     }

@@ -22,5 +22,6 @@ namespace StarForceMIS.BLL.Model
         public virtual Guard Guard { get; set; }
         public virtual ScheduleLookUp ScheduleLookUp { get; set; }
         public virtual TourOfDutyLookUp TourOfDutyLookUp { get; set; }
+        public virtual Position Position { get; set; }
     }
 }
