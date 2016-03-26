@@ -4,24 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5fccb04ba1b545c6977828b7b021bbf0" Name="Diagram1">
-        <EntityTypeShape EntityType="StarforceDBModel.Attendance" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+      <Diagram DiagramId="2973f56a6a6142a5ae6bb31c89c36064" Name="Diagram1">
+        <EntityTypeShape EntityType="StarforceDBModel.AspNetRole" Width="1.5" PointX="8.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.AspNetUserClaim" Width="1.5" PointX="13.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.AspNetUserLogin" Width="1.5" PointX="13.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.AspNetUser" Width="1.5" PointX="11" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Attendance" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
         <EntityTypeShape EntityType="StarforceDBModel.DayOffSchedule" Width="1.5" PointX="3" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StarforceDBModel.Guard" Width="1.5" PointX="0.75" PointY="5.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="StarforceDBModel.GuardPosition" Width="1.5" PointX="6" PointY="6.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="StarforceDBModel.Position" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="StarforceDBModel.Report" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="StarforceDBModel.Schedule" Width="1.5" PointX="3" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Guard" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.GuardPosition" Width="1.5" PointX="6" PointY="5.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Position" Width="1.5" PointX="3.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Report" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.Schedule" Width="1.5" PointX="6" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.ScheduleLookUp" Width="1.5" PointX="3.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.sysdiagram" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="StarforceDBModel.TourOfDutyLookUp" Width="1.5" PointX="3.75" PointY="15.75" IsExpanded="true" />
+        <AssociationConnector Association="StarforceDBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="StarforceDBModel.FK_Attendance_Guard" ManuallyRouted="false" />
         <AssociationConnector Association="StarforceDBModel.FK_DayOffSchedule_Guard" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.FK_DayOffSchedule_Guard1" ManuallyRouted="false" />
         <AssociationConnector Association="StarforceDBModel.FK_GuardPosition_Guard" ManuallyRouted="false" />
         <AssociationConnector Association="StarforceDBModel.FK_Schedule_Guard" ManuallyRouted="false" />
         <AssociationConnector Association="StarforceDBModel.FK_GuardPosition_Position" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="StarforceDBModel.ScheduleLookUp" Width="1.5" PointX="0.75" PointY="0.875" />
-        <AssociationConnector Association="StarforceDBModel.FK_Schedule_ScheduleLookUp" />
-        <EntityTypeShape EntityType="StarforceDBModel.TourOfDutyLookUp" Width="1.5" PointX="8.375" PointY="0.875" />
-        <AssociationConnector Association="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" />
-        <AssociationConnector Association="StarforceDBModel.FK_Schedule_Position" />
+        <AssociationConnector Association="StarforceDBModel.FK_Schedule_Position" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.FK_Schedule_ScheduleLookUp" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" ManuallyRouted="false" />
+        <AssociationConnector Association="StarforceDBModel.AspNetUserRoles" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

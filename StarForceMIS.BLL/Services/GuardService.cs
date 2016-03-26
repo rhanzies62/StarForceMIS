@@ -220,5 +220,91 @@ namespace StarForceMIS.BLL.Services
                 return schedules;
             }
         }
+
+        public List<GuardViewModel> RetrieveGuardAttendance(long scheduleID)
+        {
+            using (var db = new StarforceDBEntities())
+            {
+                var attendanceList = new List<GuardViewModel>();
+                IQueryable<Guard> unCheckGuards, notDayOffGuards;
+
+
+                //retrieve todays schedule
+                var todaysSchedule = (from i in db.Schedules
+                                      where i.ScheduleID.Equals(scheduleID)
+                                      select i);
+
+                var ts = todaysSchedule.Count();
+
+                //retrieve todays attendance
+                var todaysAttendnace = (from attendance in db.Attendances
+                                        where attendance.CreatedDate.Month.Equals(DateTime.UtcNow.Month) &&
+                                        attendance.CreatedDate.Day.Equals(DateTime.UtcNow.Day) &&
+                                        attendance.CreatedDate.Year.Equals(DateTime.UtcNow.Year)
+                                        select attendance);
+
+                long ta = todaysAttendnace.Count();
+
+                //retrieve todays day off
+                var todaysDayOff = (from dayoff in db.DayOffSchedules
+                                    where dayoff.DayOffDate.Month.Equals(DateTime.UtcNow.Month) &&
+                                    dayoff.DayOffDate.Day.Equals(DateTime.UtcNow.Day) &&
+                                    dayoff.DayOffDate.Year.Equals(DateTime.UtcNow.Year)
+                                    select dayoff);
+
+                //retrieve reliever
+                var todaysRelievers = todaysDayOff.Select(i => new GuardViewModel()
+                                    {
+                                        ID = i.GuardID,
+                                        FirstName = i.Guard.FirstName,
+                                        LastName = i.Guard.LastName,
+                                        IsReliever = true
+                                    }).ToList();
+
+
+                //filter out schdules and remove guards thats already scanned
+                unCheckGuards = (from schedule in todaysSchedule
+                                 join attendace in todaysAttendnace on schedule.GuardID equals attendace.GuardID into g
+                                 where !g.Any()
+                                 select schedule.Guard);
+                var ucg = unCheckGuards.Count();
+
+                //ilter out schedules and remove off duty guards
+                notDayOffGuards = (from schedule in todaysSchedule
+                                   join dayoff in todaysDayOff on schedule.GuardID equals dayoff.GuardID into g
+                                   where !g.Any()
+                                   select schedule.Guard);
+
+
+                if (unCheckGuards.Count() != 0 || notDayOffGuards.Count() != 0)
+                {
+                    //combine two list to retrieve the none scanned guards
+                    attendanceList = (from i in unCheckGuards
+                                      join ii in notDayOffGuards on i.ID equals ii.ID into g
+                                      where g.Any()
+                                      select new GuardViewModel
+                                      {
+                                          ID = i.ID,
+                                          FirstName = i.FirstName,
+                                          LastName = i.LastName
+                                      }).ToList();
+                    //insert all reliever after the final query
+                    attendanceList.AddRange(todaysRelievers);
+                }
+                else
+                {
+                    //just retrieve all of the records scheduled today
+                    attendanceList = (from i in todaysSchedule
+                                      select new GuardViewModel
+                                      {
+                                          ID = i.GuardID,
+                                          FirstName = i.Guard.FirstName,
+                                          LastName = i.Guard.LastName
+                                      }).ToList();
+                }
+
+                return attendanceList;
+            }
+        }
     }
 }

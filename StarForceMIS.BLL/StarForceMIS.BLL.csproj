@@ -48,52 +48,69 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interface\IAttendance.cs" />
     <Compile Include="Interface\IGuardService.cs" />
     <Compile Include="Interface\IMonthlyScheduleService.cs" />
+    <Compile Include="Model\AspNetRole.cs">
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AspNetUser.cs">
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AspNetUserClaim.cs">
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\AspNetUserLogin.cs">
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\Attendance.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\DayOffSchedule.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Entities\Guard.cs" />
     <Compile Include="Model\Guard.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\GuardPosition.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Position.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Report.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\Schedule.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\ScheduleLookUp.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StarForceMISModel.Context.cs">
+    <Compile Include="Model\StarforceMISModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>StarForceMISModel.Context.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StarForceMISModel.cs">
+    <Compile Include="Model\StarforceMISModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Model\StarForceMISModel.Designer.cs">
+    <Compile Include="Model\StarforceMISModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>StarForceMISModel.edmx</DependentUpon>
+      <DependentUpon>StarforceMISModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\sysdiagram.cs">
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TourOfDutyLookUp.cs">
-      <DependentUpon>StarForceMISModel.tt</DependentUpon>
+      <DependentUpon>StarforceMISModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AttendanceService.cs" />
     <Compile Include="Services\GuardService.cs" />
     <Compile Include="Services\MonthlyScheduleService.cs" />
     <Compile Include="ViewModel\Callback.cs" />
@@ -103,32 +120,31 @@
     <Compile Include="ViewModel\ScheduleViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model\StarForceMISModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>StarForceMISModel.edmx</DependentUpon>
-      <LastGenOutput>StarForceMISModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Model\StarForceMISModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>StarForceMISModel.edmx</DependentUpon>
-      <LastGenOutput>StarForceMISModel.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config" />
-    <EntityDeploy Include="Model\StarForceMISModel.edmx">
+    <EntityDeploy Include="Model\StarforceMISModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>StarForceMISModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>StarforceMISModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Model\StarForceMISModel.edmx.diagram">
-      <DependentUpon>StarForceMISModel.edmx</DependentUpon>
+    <None Include="Model\StarforceMISModel.edmx.diagram">
+      <DependentUpon>StarforceMISModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Model\StarforceMISModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StarforceMISModel.edmx</DependentUpon>
+      <LastGenOutput>StarforceMISModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Model\StarforceMISModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>StarforceMISModel.edmx</DependentUpon>
+      <LastGenOutput>StarforceMISModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -4,7 +4,58 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="StarforceDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="StarforceDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ClaimType" Type="nvarchar(max)" />
+          <Property Name="ClaimValue" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
         <EntityType Name="Attendance">
           <Key>
             <PropertyRef Name="GuardID" />
@@ -12,15 +63,16 @@
           </Key>
           <Property Name="GuardID" Type="bigint" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
-          <Property Name="HoursOfWork" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="DayOffSchedule">
           <Key>
             <PropertyRef Name="GuardID" />
             <PropertyRef Name="DayOffDate" />
+            <PropertyRef Name="RelieverID" />
           </Key>
           <Property Name="GuardID" Type="bigint" Nullable="false" />
           <Property Name="DayOffDate" Type="datetime" Nullable="false" />
+          <Property Name="RelieverID" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="Guard">
           <Key>
@@ -74,6 +126,8 @@
           <Key>
             <PropertyRef Name="GuardID" />
             <PropertyRef Name="PositionID" />
+            <PropertyRef Name="ScheduleID" />
+            <PropertyRef Name="TourOfDutyID" />
           </Key>
           <Property Name="GuardID" Type="bigint" Nullable="false" />
           <Property Name="PositionID" Type="bigint" Nullable="false" />
@@ -88,6 +142,16 @@
           <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DateFrom" Type="datetime" Nullable="false" />
           <Property Name="DateTo" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TourOfDutyLookUp">
           <Key>
@@ -117,6 +181,74 @@
             </Principal>
             <Dependent Role="DayOffSchedule">
               <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DayOffSchedule_Guard1">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="DayOffSchedule" Type="Self.DayOffSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DayOffSchedule">
+              <PropertyRef Name="RelieverID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRoles">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRoles">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -193,6 +325,11 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="StarforceDBModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Attendance" EntityType="Self.Attendance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DayOffSchedule" EntityType="Self.DayOffSchedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Guard" EntityType="Self.Guard" Schema="dbo" store:Type="Tables" />
@@ -201,6 +338,7 @@
           <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Schedule" EntityType="Self.Schedule" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScheduleLookUp" EntityType="Self.ScheduleLookUp" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TourOfDutyLookUp" EntityType="Self.TourOfDutyLookUp" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Attendance_Guard" Association="Self.FK_Attendance_Guard">
             <End Role="Guard" EntitySet="Guard" />
@@ -209,6 +347,26 @@
           <AssociationSet Name="FK_DayOffSchedule_Guard" Association="Self.FK_DayOffSchedule_Guard">
             <End Role="Guard" EntitySet="Guard" />
             <End Role="DayOffSchedule" EntitySet="DayOffSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DayOffSchedule_Guard1" Association="Self.FK_DayOffSchedule_Guard1">
+            <End Role="Guard" EntitySet="Guard" />
+            <End Role="DayOffSchedule" EntitySet="DayOffSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
           </AssociationSet>
           <AssociationSet Name="FK_GuardPosition_Guard" Association="Self.FK_GuardPosition_Guard">
             <End Role="Guard" EntitySet="Guard" />
@@ -235,10 +393,60 @@
             <End Role="Schedule" EntitySet="Schedule" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StarforceDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaim">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogin">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUser" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
         <EntityType Name="Attendance">
           <Key>
             <PropertyRef Name="GuardID" />
@@ -246,17 +454,19 @@
           </Key>
           <Property Name="GuardID" Type="Int64" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="HoursOfWork" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Guard" Relationship="Self.FK_Attendance_Guard" FromRole="Attendance" ToRole="Guard" />
         </EntityType>
         <EntityType Name="DayOffSchedule">
           <Key>
             <PropertyRef Name="GuardID" />
             <PropertyRef Name="DayOffDate" />
+            <PropertyRef Name="RelieverID" />
           </Key>
           <Property Name="GuardID" Type="Int64" Nullable="false" />
           <Property Name="DayOffDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RelieverID" Type="Int64" Nullable="false" />
           <NavigationProperty Name="Guard" Relationship="Self.FK_DayOffSchedule_Guard" FromRole="DayOffSchedule" ToRole="Guard" />
+          <NavigationProperty Name="Guard1" Relationship="Self.FK_DayOffSchedule_Guard1" FromRole="DayOffSchedule" ToRole="Guard" />
         </EntityType>
         <EntityType Name="Guard">
           <Key>
@@ -278,6 +488,7 @@
           <Property Name="IsReliver" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Attendances" Relationship="Self.FK_Attendance_Guard" FromRole="Guard" ToRole="Attendance" />
           <NavigationProperty Name="DayOffSchedules" Relationship="Self.FK_DayOffSchedule_Guard" FromRole="Guard" ToRole="DayOffSchedule" />
+          <NavigationProperty Name="DayOffSchedules1" Relationship="Self.FK_DayOffSchedule_Guard1" FromRole="Guard" ToRole="DayOffSchedule" />
           <NavigationProperty Name="GuardPositions" Relationship="Self.FK_GuardPosition_Guard" FromRole="Guard" ToRole="GuardPosition" />
           <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_Guard" FromRole="Guard" ToRole="Schedule" />
         </EntityType>
@@ -300,7 +511,7 @@
           <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="GuardPositions" Relationship="Self.FK_GuardPosition_Position" FromRole="Position" ToRole="GuardPosition" />
-          <NavigationProperty Name="Schedules" Relationship="StarforceDBModel.FK_Schedule_Position" FromRole="Position" ToRole="Schedule" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_Position" FromRole="Position" ToRole="Schedule" />
         </EntityType>
         <EntityType Name="Report">
           <Key>
@@ -318,16 +529,74 @@
           <Key>
             <PropertyRef Name="GuardID" />
             <PropertyRef Name="PositionID" />
+            <PropertyRef Name="ScheduleID" />
+            <PropertyRef Name="TourOfDutyID" />
           </Key>
           <Property Name="GuardID" Type="Int64" Nullable="false" />
           <Property Name="PositionID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="Guard" Relationship="Self.FK_Schedule_Guard" FromRole="Schedule" ToRole="Guard" />
           <Property Name="ScheduleID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="ScheduleLookUp" Relationship="StarforceDBModel.FK_Schedule_ScheduleLookUp" FromRole="Schedule" ToRole="ScheduleLookUp" />
           <Property Name="TourOfDutyID" Type="Int64" Nullable="false" />
-          <NavigationProperty Name="TourOfDutyLookUp" Relationship="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" FromRole="Schedule" ToRole="TourOfDutyLookUp" />
-          <NavigationProperty Name="Position" Relationship="StarforceDBModel.FK_Schedule_Position" FromRole="Schedule" ToRole="Position" />
+          <NavigationProperty Name="Guard" Relationship="Self.FK_Schedule_Guard" FromRole="Schedule" ToRole="Guard" />
+          <NavigationProperty Name="Position" Relationship="Self.FK_Schedule_Position" FromRole="Schedule" ToRole="Position" />
+          <NavigationProperty Name="ScheduleLookUp" Relationship="Self.FK_Schedule_ScheduleLookUp" FromRole="Schedule" ToRole="ScheduleLookUp" />
+          <NavigationProperty Name="TourOfDutyLookUp" Relationship="Self.FK_Schedule_TourOfDutyLookUp" FromRole="Schedule" ToRole="TourOfDutyLookUp" />
         </EntityType>
+        <EntityType Name="ScheduleLookUp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateFrom" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateTo" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_ScheduleLookUp" FromRole="ScheduleLookUp" ToRole="Schedule" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="TourOfDutyLookUp">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TourOfDuty" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Schedules" Relationship="Self.FK_Schedule_TourOfDutyLookUp" FromRole="TourOfDutyLookUp" ToRole="Schedule" />
+        </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Attendance_Guard">
           <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
           <End Role="Attendance" Type="Self.Attendance" Multiplicity="*" />
@@ -349,6 +618,18 @@
             </Principal>
             <Dependent Role="DayOffSchedule">
               <PropertyRef Name="GuardID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DayOffSchedule_Guard1">
+          <End Role="Guard" Type="Self.Guard" Multiplicity="1" />
+          <End Role="DayOffSchedule" Type="Self.DayOffSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Guard">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DayOffSchedule">
+              <PropertyRef Name="RelieverID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -388,7 +669,51 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Schedule_Position">
+          <End Role="Position" Type="Self.Position" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="PositionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_ScheduleLookUp">
+          <End Role="ScheduleLookUp" Type="Self.ScheduleLookUp" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ScheduleLookUp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="ScheduleID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Schedule_TourOfDutyLookUp">
+          <End Role="TourOfDutyLookUp" Type="Self.TourOfDutyLookUp" Multiplicity="1" />
+          <End Role="Schedule" Type="Self.Schedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TourOfDutyLookUp">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Schedule">
+              <PropertyRef Name="TourOfDutyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="StarforceDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaim" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogin" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUser" />
           <EntitySet Name="Attendances" EntityType="Self.Attendance" />
           <EntitySet Name="DayOffSchedules" EntityType="Self.DayOffSchedule" />
           <EntitySet Name="Guards" EntityType="Self.Guard" />
@@ -396,11 +721,26 @@
           <EntitySet Name="Positions" EntityType="Self.Position" />
           <EntitySet Name="Reports" EntityType="Self.Report" />
           <EntitySet Name="Schedules" EntityType="Self.Schedule" />
+          <EntitySet Name="ScheduleLookUps" EntityType="Self.ScheduleLookUp" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="TourOfDutyLookUps" EntityType="Self.TourOfDutyLookUp" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
           <AssociationSet Name="FK_Attendance_Guard" Association="Self.FK_Attendance_Guard">
             <End Role="Guard" EntitySet="Guards" />
             <End Role="Attendance" EntitySet="Attendances" />
           </AssociationSet>
           <AssociationSet Name="FK_DayOffSchedule_Guard" Association="Self.FK_DayOffSchedule_Guard">
+            <End Role="Guard" EntitySet="Guards" />
+            <End Role="DayOffSchedule" EntitySet="DayOffSchedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DayOffSchedule_Guard1" Association="Self.FK_DayOffSchedule_Guard1">
             <End Role="Guard" EntitySet="Guards" />
             <End Role="DayOffSchedule" EntitySet="DayOffSchedules" />
           </AssociationSet>
@@ -416,87 +756,79 @@
             <End Role="Position" EntitySet="Positions" />
             <End Role="GuardPosition" EntitySet="GuardPositions" />
           </AssociationSet>
-          <EntitySet Name="ScheduleLookUps" EntityType="StarforceDBModel.ScheduleLookUp" />
-          <AssociationSet Name="FK_Schedule_ScheduleLookUp" Association="StarforceDBModel.FK_Schedule_ScheduleLookUp">
-            <End Role="ScheduleLookUp" EntitySet="ScheduleLookUps" />
-            <End Role="Schedule" EntitySet="Schedules" />
-          </AssociationSet>
-          <EntitySet Name="TourOfDutyLookUps" EntityType="StarforceDBModel.TourOfDutyLookUp" />
-          <AssociationSet Name="FK_Schedule_TourOfDutyLookUp" Association="StarforceDBModel.FK_Schedule_TourOfDutyLookUp">
-            <End Role="TourOfDutyLookUp" EntitySet="TourOfDutyLookUps" />
-            <End Role="Schedule" EntitySet="Schedules" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Schedule_Position" Association="StarforceDBModel.FK_Schedule_Position">
+          <AssociationSet Name="FK_Schedule_Position" Association="Self.FK_Schedule_Position">
             <End Role="Position" EntitySet="Positions" />
             <End Role="Schedule" EntitySet="Schedules" />
           </AssociationSet>
+          <AssociationSet Name="FK_Schedule_ScheduleLookUp" Association="Self.FK_Schedule_ScheduleLookUp">
+            <End Role="ScheduleLookUp" EntitySet="ScheduleLookUps" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Schedule_TourOfDutyLookUp" Association="Self.FK_Schedule_TourOfDutyLookUp">
+            <End Role="TourOfDutyLookUp" EntitySet="TourOfDutyLookUps" />
+            <End Role="Schedule" EntitySet="Schedules" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="ScheduleLookUp">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DateFrom" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="DateTo" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Schedules" Relationship="StarforceDBModel.FK_Schedule_ScheduleLookUp" FromRole="ScheduleLookUp" ToRole="Schedule" />
-        </EntityType>
-        <Association Name="FK_Schedule_ScheduleLookUp">
-          <End Type="StarforceDBModel.ScheduleLookUp" Role="ScheduleLookUp" Multiplicity="1" />
-          <End Type="StarforceDBModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ScheduleLookUp">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="ScheduleID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="TourOfDutyLookUp">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TourOfDuty" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Schedules" Relationship="StarforceDBModel.FK_Schedule_TourOfDutyLookUp" FromRole="TourOfDutyLookUp" ToRole="Schedule" />
-        </EntityType>
-        <Association Name="FK_Schedule_TourOfDutyLookUp">
-          <End Type="StarforceDBModel.TourOfDutyLookUp" Role="TourOfDutyLookUp" Multiplicity="1" />
-          <End Type="StarforceDBModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="TourOfDutyLookUp">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="TourOfDutyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Schedule_Position">
-          <End Type="StarforceDBModel.Position" Role="Position" Multiplicity="1" />
-          <End Type="StarforceDBModel.Schedule" Role="Schedule" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Position">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Schedule">
-              <PropertyRef Name="PositionID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="StarforceDBModelStoreContainer" CdmEntityContainer="StarforceDBEntities">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="StarforceDBModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="StarforceDBModel.AspNetUserClaim">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="StarforceDBModel.AspNetUserLogin">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="StarforceDBModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Attendances">
             <EntityTypeMapping TypeName="StarforceDBModel.Attendance">
               <MappingFragment StoreEntitySet="Attendance">
                 <ScalarProperty Name="GuardID" ColumnName="GuardID" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="HoursOfWork" ColumnName="HoursOfWork" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -505,6 +837,7 @@
               <MappingFragment StoreEntitySet="DayOffSchedule">
                 <ScalarProperty Name="GuardID" ColumnName="GuardID" />
                 <ScalarProperty Name="DayOffDate" ColumnName="DayOffDate" />
+                <ScalarProperty Name="RelieverID" ColumnName="RelieverID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -562,31 +895,50 @@
           <EntitySetMapping Name="Schedules">
             <EntityTypeMapping TypeName="StarforceDBModel.Schedule">
               <MappingFragment StoreEntitySet="Schedule">
-                <ScalarProperty Name="TourOfDutyID" ColumnName="TourOfDutyID" />
-                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
                 <ScalarProperty Name="GuardID" ColumnName="GuardID" />
                 <ScalarProperty Name="PositionID" ColumnName="PositionID" />
+                <ScalarProperty Name="ScheduleID" ColumnName="ScheduleID" />
+                <ScalarProperty Name="TourOfDutyID" ColumnName="TourOfDutyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ScheduleLookUps">
             <EntityTypeMapping TypeName="StarforceDBModel.ScheduleLookUp">
               <MappingFragment StoreEntitySet="ScheduleLookUp">
-                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
-                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="DateFrom" ColumnName="DateFrom" />
+                <ScalarProperty Name="DateTo" ColumnName="DateTo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="StarforceDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TourOfDutyLookUps">
             <EntityTypeMapping TypeName="StarforceDBModel.TourOfDutyLookUp">
               <MappingFragment StoreEntitySet="TourOfDutyLookUp">
-                <ScalarProperty Name="TourOfDuty" ColumnName="TourOfDuty" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="TourOfDuty" ColumnName="TourOfDuty" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="StarforceDBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

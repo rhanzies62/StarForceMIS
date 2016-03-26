@@ -12,16 +12,13 @@ namespace StarForceMIS.BLL.Model
     using System;
     using System.Collections.Generic;
     
-    public partial class Schedule
+    public partial class AspNetUserClaim
     {
-        public long GuardID { get; set; }
-        public long PositionID { get; set; }
-        public long ScheduleID { get; set; }
-        public long TourOfDutyID { get; set; }
+        public int Id { get; set; }
+        public string UserId { get; set; }
+        public string ClaimType { get; set; }
+        public string ClaimValue { get; set; }
     
-        public virtual Guard Guard { get; set; }
-        public virtual Position Position { get; set; }
-        public virtual ScheduleLookUp ScheduleLookUp { get; set; }
-        public virtual TourOfDutyLookUp TourOfDutyLookUp { get; set; }
+        public virtual AspNetUser AspNetUser { get; set; }
     }
 }

@@ -1,0 +1,41 @@
+﻿@model StarForceMIS.Web.Models.GuardViewModel
+<div class="col-md-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <strong class="text-center">
+                @Model.FirstName @Model.LastName
+            </strong>
+        </div>
+        <div class="panel-body">
+
+            <div class="col-md-12">
+                @if (Model.IsReliever)
+                {
+                    <div class="row">
+                        <span class="label label-info col-md-12">Reliever</span>
+                        <br />
+                    </div>
+                }
+                <div class="row">
+                    <div class="col-md-12">
+                        <img class="img-thumbnail" src="@Url.Action("GetUserImage", "SGManagement", new { id = Model.ID })" />
+                    </div>
+                </div>
+                <br />
+                @using (Html.BeginForm())
+                {
+                    @Html.HiddenFor(model => model.ID, new { @name = "guardID", @id = "guardID" })
+                    <div class="row">
+                        <button class="btn btn-primary col-md-12">Present</button>
+                    </div>
+                    <div class="row">
+                        @*<button class="btn btn-danger col-md-12">Absent</button>*@
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
+

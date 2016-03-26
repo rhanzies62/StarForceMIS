@@ -16,11 +16,13 @@ namespace StarForceMIS.Web.Controllers
 
         private readonly IGuardService _guardService;
         private readonly IMonthlyScheduleService _monthlyScheduleService;
+        private readonly IAttendanceService _attendanceService;
 
         public SGManagementController()
         {
             _guardService = new GuardService();
             _monthlyScheduleService = new MonthlyScheduleService();
+            _attendanceService = new AttendanceService();
         }
 
         // GET: Default
@@ -116,8 +118,16 @@ namespace StarForceMIS.Web.Controllers
         [HttpGet]
         public ActionResult Attendance()
         {
-            var guards = _guardService.RetrieveGuards();
+            var currentSched = _monthlyScheduleService.RetrieveCurrentSchedule();
+            var guards = _guardService.RetrieveGuardAttendance(currentSched);
             return View(guards);
+        }
+
+        [HttpPost]
+        public ActionResult Attendance(long id)
+        {
+            _attendanceService.MarkAsPresent(id);
+            return RedirectToAction("Attendance");
         }
 
         [HttpGet]

@@ -25,6 +25,10 @@ namespace StarForceMIS.BLL.Model
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Attendance> Attendances { get; set; }
         public virtual DbSet<DayOffSchedule> DayOffSchedules { get; set; }
         public virtual DbSet<Guard> Guards { get; set; }
@@ -33,6 +37,7 @@ namespace StarForceMIS.BLL.Model
         public virtual DbSet<Report> Reports { get; set; }
         public virtual DbSet<Schedule> Schedules { get; set; }
         public virtual DbSet<ScheduleLookUp> ScheduleLookUps { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TourOfDutyLookUp> TourOfDutyLookUps { get; set; }
     }
 }

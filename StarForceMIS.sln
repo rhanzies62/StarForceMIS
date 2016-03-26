@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarForceMIS.Web", "StarFor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarForceMIS.BLL", "StarForceMIS.BLL\StarForceMIS.BLL.csproj", "{AEE15746-AD80-4688-8F84-28CDD00EEEEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarForceMIS.Test", "StarForceMIS.Test\StarForceMIS.Test.csproj", "{0058699A-9292-427A-8161-4B2373967FDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AEE15746-AD80-4688-8F84-28CDD00EEEEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEE15746-AD80-4688-8F84-28CDD00EEEEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEE15746-AD80-4688-8F84-28CDD00EEEEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0058699A-9292-427A-8161-4B2373967FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0058699A-9292-427A-8161-4B2373967FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0058699A-9292-427A-8161-4B2373967FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0058699A-9292-427A-8161-4B2373967FDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

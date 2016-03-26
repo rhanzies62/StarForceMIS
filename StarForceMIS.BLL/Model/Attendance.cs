@@ -16,7 +16,6 @@ namespace StarForceMIS.BLL.Model
     {
         public long GuardID { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public int HoursOfWork { get; set; }
     
         public virtual Guard Guard { get; set; }
     }

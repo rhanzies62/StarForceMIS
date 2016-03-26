@@ -12,6 +12,7 @@ namespace StarForceMIS.BLL.Interface
         Callback<GuardViewModel> AddNewGuard(GuardViewModel model);
         GuardViewModel GetGuardByID(long id);
         List<GuardViewModel> RetrieveGuards();
+        List<GuardViewModel> RetrieveGuardAttendance(long scheduleID);
         List<GuardViewModel> SearchGuard(string queryString);
         Callback<GuardViewModel> UpdateGuard(GuardViewModel model);
         Callback<GuardViewModel> RemoveGuard(int id);

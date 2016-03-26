@@ -18,6 +18,7 @@ namespace StarForceMIS.BLL.Model
         {
             this.Attendances = new HashSet<Attendance>();
             this.DayOffSchedules = new HashSet<DayOffSchedule>();
+            this.DayOffSchedules1 = new HashSet<DayOffSchedule>();
             this.GuardPositions = new HashSet<GuardPosition>();
             this.Schedules = new HashSet<Schedule>();
         }
@@ -39,6 +40,7 @@ namespace StarForceMIS.BLL.Model
     
         public virtual ICollection<Attendance> Attendances { get; set; }
         public virtual ICollection<DayOffSchedule> DayOffSchedules { get; set; }
+        public virtual ICollection<DayOffSchedule> DayOffSchedules1 { get; set; }
         public virtual ICollection<GuardPosition> GuardPositions { get; set; }
         public virtual ICollection<Schedule> Schedules { get; set; }
     }
