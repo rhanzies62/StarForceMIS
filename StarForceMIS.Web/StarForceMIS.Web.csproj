@@ -180,12 +180,14 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\App\HomeScript.js" />
+    <Content Include="Scripts\App\SGManagement\DayOffSchedule.js" />
     <Content Include="Scripts\App\SGManagement\Index.js" />
     <Content Include="Scripts\App\SGManagement\Schedule.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="Properties\PublishProfiles\StarForceMIS.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -248,6 +250,8 @@
     <Content Include="Views\SGManagement\Partial\_GuardSchedules.cshtml" />
     <Content Include="Views\SGManagement\Partial\_ScheduleCallback.cshtml" />
     <Content Include="Views\SGManagement\Partial\_AttendanceTemplate.cshtml" />
+    <Content Include="Views\SGManagement\ScheduleDayOff.cshtml" />
+    <Content Include="Views\SGManagement\Partial\_ScheduleDayOffDropdown.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

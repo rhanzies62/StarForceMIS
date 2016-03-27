@@ -1,4 +1,4 @@
-﻿@model IEnumerable<StarForceMIS.Web.Models.GuardViewModel>
+﻿@model IEnumerable<StarForceMIS.Web.Models.DayOffViewModel>
 
 @{
     ViewBag.Title = "DayOffSchedule";
@@ -9,46 +9,34 @@
 </h2>
 
 <div class="container">
-    @for (int i = 1; i <= 7; i++)
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <div class="well clearfix">
-                    <div class="col-md-2">
-                        <h1 class="text-center">1</h1>
-                        <h2 class="text-center">Monday</h2>
-                    </div>
-                    <div class="col-md-10">
-                        <div class="well">
-                            <table class="table table-bordered table-hover table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            Off Duty Guard(S)
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="">
-                                        <td>
-                                            <div class="col-md-2">
-                                                <img class="img img-thumbnail img-responsive" src="~/Content/img/noavatar.jpg" />
-                                            </div>
-                                            <div class="col-md-10">
-                                                <h4>Francisco Cebu</h4>
-                                            </div>
-                                            <span class="label label-danger col-md-2">No reliver yet</span>
-                                            <div class="col-md-2 col-md-offset-10">
-                                                <button class="btn btn-warning btn-sm">Set Reliever</button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="row">
+        <div class=" col-md-2 col-md-offset-10">
+            <a href="@Url.Action("ScheduleDayOff","SGManagement")" class="btn btn-success">Set Day off</a>
         </div>
-    }
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <br />
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Off Duty Guard</th>
+                        <th>Reliever</th>
+                        <td>Day off date</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.DayOffGuard.FirstName @item.DayOffGuard.LastName</td>
+                            <td>@item.RelieverGuard.FirstName @item.RelieverGuard.LastName</td>
+                            <td>@item.ScheduledDayOff.ToShortDateString()</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
 </div>

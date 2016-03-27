@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\IAttendance.cs" />
+    <Compile Include="Interface\IDayOffService.cs" />
     <Compile Include="Interface\IGuardService.cs" />
     <Compile Include="Interface\IMonthlyScheduleService.cs" />
     <Compile Include="Model\AspNetRole.cs">
@@ -111,9 +112,11 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AttendanceService.cs" />
+    <Compile Include="Services\DayOffScheduleService.cs" />
     <Compile Include="Services\GuardService.cs" />
     <Compile Include="Services\MonthlyScheduleService.cs" />
     <Compile Include="ViewModel\Callback.cs" />
+    <Compile Include="ViewModel\DayOffViewModel.cs" />
     <Compile Include="ViewModel\GuardScheduleViewModel.cs" />
     <Compile Include="ViewModel\GuardViewModel.cs" />
     <Compile Include="ViewModel\ScheduleDetailViewModel.cs" />

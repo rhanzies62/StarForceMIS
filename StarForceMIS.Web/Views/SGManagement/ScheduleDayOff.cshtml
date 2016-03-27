@@ -1,0 +1,39 @@
+﻿@model StarForceMIS.Web.Models.ScheduleDayOffViewModel
+
+@{
+    ViewBag.Title = "ScheduleDayOff";
+}
+
+<h2>ScheduleDayOff</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>ScheduleDayOffViewModel</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.DayOffDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DayOffDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DayOffDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-3">
+                <span class="btnPopulateList btn btn-primary col-md-3">Populate List</span>
+            </div>
+        </div>
+
+        <div class="guards">
+
+        </div>
+
+    </div>
+}
+
+@section Scripts{
+    <script src="~/Scripts/App/SGManagement/DayOffSchedule.js"></script>
+}

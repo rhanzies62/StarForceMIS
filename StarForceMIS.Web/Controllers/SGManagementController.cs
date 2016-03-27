@@ -17,12 +17,13 @@ namespace StarForceMIS.Web.Controllers
         private readonly IGuardService _guardService;
         private readonly IMonthlyScheduleService _monthlyScheduleService;
         private readonly IAttendanceService _attendanceService;
-
+        private readonly IDayOffService _dayOfService;
         public SGManagementController()
         {
             _guardService = new GuardService();
             _monthlyScheduleService = new MonthlyScheduleService();
             _attendanceService = new AttendanceService();
+            _dayOfService = new DayOffScheduleService();
         }
 
         // GET: Default
@@ -133,7 +134,8 @@ namespace StarForceMIS.Web.Controllers
         [HttpGet]
         public ActionResult DayOffSchedule()
         {
-            return View();
+            var model = _dayOfService.RetrieveDayoffs();
+            return View(model);
         }
 
         [HttpPost]
@@ -176,6 +178,37 @@ namespace StarForceMIS.Web.Controllers
         {
             var result = _guardService.ScheduleGuard(model);
             return PartialView("partial/_ScheduleCallback", result);
+        }
+
+        [HttpGet]
+        public ActionResult ScheduleDayOff()
+        {
+            var model = new ScheduleDayOffViewModel();
+            model.DayOffDate = DateTime.UtcNow;
+            return View(model);
+        }
+
+        [HttpGet]
+        public ActionResult RetrieveGuardsToDropDown(DateTime scheduledDate)
+        {
+            var model = _dayOfService.RetrieveDayOffData(scheduledDate);
+            return PartialView("partial/_ScheduleDayOffDropDown",model);
+        }
+
+        [HttpPost]
+        public ActionResult ScheduleDayOff(ScheduleDayOffViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = _dayOfService.SetGuardDayOff(model);
+                if(result.Success)
+                    return RedirectToAction("DayOffSchedule");
+                else
+                {
+                    ModelState.AddModelError("", result.Message);
+                }
+            }
+            return View(model);
         }
 
     }

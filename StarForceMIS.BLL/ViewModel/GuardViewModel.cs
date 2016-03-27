@@ -63,6 +63,10 @@ namespace StarForceMIS.Web.Models
         [Display(Name="Post/Location")]
         public long PositionID { get; set; }
 
+        public string Fullname {
+            get { return string.Format("{0} {1}",this.FirstName,this.LastName); } 
+        }
+
         public List<MonthlySchedule> ScheduleLookUp { get; set; }
         public List<TourOfDutyLookUp> TourOfDutyLookUp { get; set; }
         public List<PositionLookUp> PositionLookUp { get; set; }

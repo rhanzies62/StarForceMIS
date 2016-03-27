@@ -243,7 +243,6 @@ namespace StarForceMIS.BLL.Services
                                         attendance.CreatedDate.Year.Equals(DateTime.UtcNow.Year)
                                         select attendance);
 
-                long ta = todaysAttendnace.Count();
 
                 //retrieve todays day off
                 var todaysDayOff = (from dayoff in db.DayOffSchedules
@@ -255,9 +254,9 @@ namespace StarForceMIS.BLL.Services
                 //retrieve reliever
                 var todaysRelievers = todaysDayOff.Select(i => new GuardViewModel()
                                     {
-                                        ID = i.GuardID,
-                                        FirstName = i.Guard.FirstName,
-                                        LastName = i.Guard.LastName,
+                                        ID = i.RelieverID,
+                                        FirstName = i.Guard1.FirstName,
+                                        LastName = i.Guard1.LastName,
                                         IsReliever = true
                                     }).ToList();
 
@@ -267,7 +266,6 @@ namespace StarForceMIS.BLL.Services
                                  join attendace in todaysAttendnace on schedule.GuardID equals attendace.GuardID into g
                                  where !g.Any()
                                  select schedule.Guard);
-                var ucg = unCheckGuards.Count();
 
                 //ilter out schedules and remove off duty guards
                 notDayOffGuards = (from schedule in todaysSchedule
@@ -289,7 +287,15 @@ namespace StarForceMIS.BLL.Services
                                           LastName = i.LastName
                                       }).ToList();
                     //insert all reliever after the final query
+                    foreach(var reliever in todaysRelievers)
+                    {
+                        var exist = attendanceList.Where(i => i.ID.Equals(reliever.ID)).FirstOrDefault();
+                        if (exist != null)
+                            attendanceList.Remove(exist);
+                    }
+                    
                     attendanceList.AddRange(todaysRelievers);
+                    
                 }
                 else
                 {
